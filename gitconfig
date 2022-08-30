@@ -1,0 +1,125 @@
+[core]
+    editor = /usr/bin/vim
+    pager = less -x4
+
+[user]
+    name = <First name> <Last name>
+    email = firstname.lastname@some-organization.com
+
+[format]
+    signoff = true
+
+# mail setup is needed only if you are working with kernel development and want
+# to send patches easily otherwise just remove it
+[sendemail]
+    smtpserver = smtp.some-organization.com
+    smtpserverport = <port (465?)>
+    smtpencryption = tls
+    smtpuser = <user_name>
+    smtppass = <password> # security hazard as password is visible in plain text; convenience vs security
+
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+
+[alias]	    
+    # basic /*
+    st = status -s # -s is --short
+    cl = clone
+    ci = commit
+    co = checkout
+    br = branch
+    bv = branch -vv
+    r =reset
+    cp = cherry-pick
+    gr = grep --color=always -Ii
+    # */
+    # tweaks default /*
+    bra = branch -ra # --remote --all
+    ai = add --interactive
+    # */
+    # commit /*
+    cm = commit -m # -m is --message="message"
+    cma = commit -a -m # -a is --all and tells the commit to automatically stage the modified and deleted files
+    ca = commit --amend
+    amend = commit --amend
+    caa = commit -a --amend -C HEAD # --all (commit all changed files); -C|--reuse-message (resuse HEAD message in this case)
+    # */
+    # diff /*
+    d = diff --word-diff
+    dc = diff --cached
+    # diff last commit
+    dlc = diff --cached HEAD^
+    dr = "!f() { git diff -w "$1"^.."$1"; }; f"
+    diffr = "!f() { git diff "$1"^.."$1"; }; f"
+    # */
+    # reset commands /*
+    r1 = reset HEAD^
+    r2 = reset HEAD^^
+    rh = reset --hard
+    rh1 = reset HEAD^ --hard
+    rh2 = reset HEAD^^ --hard
+    # */
+    # stash commands /*
+    sl = stash list
+    sa = stash apply # apply changes and keep them in stash
+    ss = stash save # save changes
+    sp = stash pop # apply changes and remove them
+    # */
+    # tags /*
+    lasttag = describe --tags --abbrev=0
+    lt = describe --tags --abbrev=0
+    # */
+    # conflict/merges /*
+    # better to use a gui for example kdiff3 or meld
+    ours = "!f() { git co --ours $@ && git add $@; }; f"
+    theirs = "!f() { git co --theirs $@ && git add $@; }; f"
+    # */
+    # list remotes /*
+    rem = "!git config -l | grep --color=always remote.*url | tail -n +2"
+    # */
+    # open markdown files edited in last commit /*
+    last = "!vim $(git show HEAD --format="" --name-only | grep --color=always -e .*md$ | xargs)"
+    # */
+    # open just created markdown in working directory /*
+    newmd = "!vim $(git status -s | awk {'print $2'})"
+    # */
+    # list all aliases /*
+    la = "!git config -l | grep --color=always alias | cut -c 7-"
+    # */
+    # worktree list /*
+    wl = worktree list
+    # */
+    # branching */
+    # switch to an existing branch
+    sw = switch
+    # create a new branch and switch to it
+    csw = switch --create
+    # switch to a previously checked out branch
+    sw- = switch -
+
+# miscellaneous /*
+# */
+
+[diff]
+    tool = kdiff3
+
+[difftool "kdiff3"]
+    path = /usr/bin/kdiff3
+
+[difftool]
+    prompt = false
+    keepBackup = false
+    trustExitCode = false
+
+[merge]
+    tool = kdiff3
+
+[mergetool]
+    prompt = false
+    keepBackup = false
+    keepTemporaries = false
+
+[mergetool "kdiff3"]
+    cmd = /usr/bin/kdiff3
